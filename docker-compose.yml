@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: erp
+      POSTGRES_PASSWORD: erp
+      POSTGRES_DB: erp
+    ports:
+      - "5432:5432"
+    volumes:
+      # Los scripts de sql/ se ejecutan en orden al crear la base por primera vez.
+      - ./sql/01_esquema.sql:/docker-entrypoint-initdb.d/01_esquema.sql:ro
+      - ./sql/02_vistas.sql:/docker-entrypoint-initdb.d/02_vistas.sql:ro
+      - ./sql/03_datos_ejemplo.sql:/docker-entrypoint-initdb.d/03_datos_ejemplo.sql:ro
